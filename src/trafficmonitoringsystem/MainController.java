@@ -77,10 +77,11 @@ public class MainController implements Initializable
                 else
                     GlobalObjects.getInstance().showMessage("Cannot be opened", anchorpane_center_main);
             }
+            else
+                GlobalObjects.getInstance().showMessage("Choose a video file", anchorpane_center_main);
         }
         else
         {
-            GlobalObjects.getInstance().showMessage("Choose a video file", anchorpane_center_main);
             cameraActive = false;
             GlobalObjects.getInstance().shutdownScheduledExecutor(GlobalObjects.getInstance().timer);
             GlobalObjects.getInstance().stopCamera(GlobalObjects.getInstance().videoCapture);

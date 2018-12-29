@@ -16,5 +16,7 @@
 }
 .jfx-snackbar-toast {
     -fx-text-fill: WHITE;
+    -fx-font: 12px Lato;
+    -fx-font-weight: bold;
 }
 
