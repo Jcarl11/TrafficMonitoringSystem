@@ -26,18 +26,18 @@ public class GlobalObjects
             instance = new GlobalObjects();
         return instance;
     }
-    public ScheduledExecutorService timer = Executors.newSingleThreadScheduledExecutor();
+    public ScheduledExecutorService timer;
     public VideoCapture videoCapture;
     public Image mat2Image(Mat frame)
     {
         try
         {
-                return SwingFXUtils.toFXImage(matToBufferedImage(frame), null);
+            return SwingFXUtils.toFXImage(matToBufferedImage(frame), null);
         }
         catch (Exception e)
         {
-                System.err.println("Cannot convert the Mat obejct: " + e);
-                return null;
+            System.err.println("Cannot convert the Mat obejct: " + e);
+            return null;
         }
     }
     public BufferedImage matToBufferedImage(Mat original)
