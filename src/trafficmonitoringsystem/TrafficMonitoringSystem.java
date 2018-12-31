@@ -25,10 +25,10 @@ public class TrafficMonitoringSystem extends Application {
     @Override
     public void start(Stage stage) throws Exception 
     {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
+        /*FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
         loader.setController(new MainController());
-        BorderPane mainPane = loader.load();
-        //Parent root = FXMLLoader.load(getClass().getResource("Main.fxml"));
+        BorderPane mainPane = loader.load();*/
+        Parent root = FXMLLoader.load(getClass().getResource("Main.fxml"));
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() 
         {
             @Override
@@ -38,7 +38,7 @@ public class TrafficMonitoringSystem extends Application {
                 GlobalObjects.getInstance().stopCamera(GlobalObjects.getInstance().videoCapture);
             }
         });
-        Scene scene = new Scene(mainPane);
+        Scene scene = new Scene(root);
         stage.setScene(scene);
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         stage.show();

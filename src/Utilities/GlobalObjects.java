@@ -1,11 +1,9 @@
-
 package Utilities;
 
 import com.jfoenix.controls.JFXSnackbar;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.File;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import javafx.embed.swing.SwingFXUtils;

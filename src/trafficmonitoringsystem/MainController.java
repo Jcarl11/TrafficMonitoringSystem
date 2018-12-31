@@ -1,6 +1,11 @@
 package trafficmonitoringsystem;
 import Utilities.GlobalObjects;
-import java.io.File;
+import com.jfoenix.controls.JFXButton;
+import de.jensd.fx.glyphs.GlyphsDude;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon;
+import de.jensd.fx.glyphs.materialicons.MaterialIcon;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
@@ -16,6 +21,8 @@ import org.opencv.videoio.VideoCapture;
 import java.util.concurrent.TimeUnit;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 import org.opencv.core.MatOfRect;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
@@ -24,19 +31,21 @@ import org.opencv.objdetect.CascadeClassifier;
 
 public class MainController implements Initializable
 {
-    
     boolean cameraActive = false;
+    @FXML private HBox hbox_bottom;
     @FXML private AnchorPane anchorpane_center_main;
     @FXML private ImageView imageview_video;
     @FXML private TextField textfield_carcount,textfield_path;
-    @FXML private Button button_choosefile,button_playpause;
+    @FXML private Button button_choosefile;
+    @FXML private JFXButton jfxbutton_play;
 
     @FXML void button_choosefileOnClick(ActionEvent event) 
     {
         textfield_path.setText(GlobalObjects.getInstance().showChooserDialog("mp4","avi","wmv"));
     }
 
-    @FXML void button_playpauseOnClick(ActionEvent event) 
+    @FXML
+    void jfxbutton_playOnClick(ActionEvent event)
     {
         CascadeClassifier cascadeClassifier = new CascadeClassifier("C:\\Users\\Windows\\Documents\\NetBeansProjects\\TrafficMonitoringSystem\\src\\trafficmonitoringsystem\\cars.xml");
         if(cameraActive == false)
@@ -48,7 +57,6 @@ public class MainController implements Initializable
                 if(GlobalObjects.getInstance().videoCapture.isOpened())
                 {
                     Mat frame = new Mat();
-                    Mat frameCopy = new Mat();
                     MatOfRect rect = new MatOfRect();
                     
                     Runnable frameGrabber = new Runnable() 
@@ -73,8 +81,6 @@ public class MainController implements Initializable
                                 GlobalObjects.getInstance().shutdownScheduledExecutor(GlobalObjects.getInstance().timer);
                                 GlobalObjects.getInstance().stopCamera(GlobalObjects.getInstance().videoCapture);
                             }
-                                
-                            
                         }
                     };
                     GlobalObjects.getInstance().timer = Executors.newSingleThreadScheduledExecutor();
@@ -93,8 +99,10 @@ public class MainController implements Initializable
             GlobalObjects.getInstance().stopCamera(GlobalObjects.getInstance().videoCapture);
         }
     }
-    @FXML
-    void jfxbutton_playOnClick(ActionEvent event){}
     @Override
-    public void initialize(URL url, ResourceBundle rb) {}    
+    public void initialize(URL url, ResourceBundle rb) 
+    {
+        jfxbutton_play.setGraphic(GlyphsDude.createIcon(MaterialDesignIcon.PLAY_PAUSE, "24px"));
+    }    
+
 }
