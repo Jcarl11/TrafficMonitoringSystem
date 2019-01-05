@@ -4,11 +4,20 @@ import com.jfoenix.controls.JFXSnackbar;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.opencv.core.Mat;
@@ -24,7 +33,7 @@ public class GlobalObjects
             instance = new GlobalObjects();
         return instance;
     }
-    public ScheduledExecutorService timer;
+    public ScheduledExecutorService timer,grabber;
     public VideoCapture videoCapture;
     public Image mat2Image(Mat frame)
     {
@@ -78,7 +87,7 @@ public class GlobalObjects
             }
             catch (InterruptedException e)
             {
-                System.err.println("Exception in stopping the frame capture, trying to release the camera now... " + e);
+                System.err.println(e);
             }
         }
     }
@@ -89,6 +98,7 @@ public class GlobalObjects
         JFileChooser chooser = new JFileChooser();
         chooser.setMultiSelectionEnabled(false);
         chooser.setFileFilter(new FileNameExtensionFilter("Files",acceptableFileTypes));
+        chooser.setCurrentDirectory(new File("D:\\JOEY\\Capstone"));
         chooser.showOpenDialog(null);
         File selectedFile = chooser.getSelectedFile();
         if(selectedFile != null)
@@ -102,5 +112,27 @@ public class GlobalObjects
     {
         JFXSnackbar snackbar = new JFXSnackbar(container);
         snackbar.show(message.trim(), 3000);
+    }
+    public void openNewWindow(String fileName, String title, StageStyle stageStyle)
+    {
+        try 
+        {
+            Parent root = FXMLLoader.load(getClass().getResource("/trafficmonitoringsystem/" + fileName));
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(stageStyle);
+            stage.setTitle(title);
+            stage.setScene(new Scene(root));            
+            stage.setOnCloseRequest(new EventHandler<WindowEvent>() 
+            {
+                @Override
+                public void handle(WindowEvent event) 
+                {
+                   
+                }
+            });
+            stage.show();
+        } 
+        catch (IOException iOException) {iOException.printStackTrace();}
     }
 }

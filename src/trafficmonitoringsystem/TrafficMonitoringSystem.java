@@ -34,6 +34,7 @@ public class TrafficMonitoringSystem extends Application {
             @Override
             public void handle(WindowEvent event) 
             {
+                GlobalObjects.getInstance().shutdownScheduledExecutor(GlobalObjects.getInstance().grabber);
                 GlobalObjects.getInstance().shutdownScheduledExecutor(GlobalObjects.getInstance().timer);
                 GlobalObjects.getInstance().stopCamera(GlobalObjects.getInstance().videoCapture);
             }
