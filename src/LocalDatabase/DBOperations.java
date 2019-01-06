@@ -1,16 +1,18 @@
 
 package LocalDatabase;
 
+import Utilities.Day;
 import java.sql.*;
+import java.util.HashMap;
 
-public class DBOperations 
+public abstract class DBOperations 
 {
     private String DATABASE_NAME = "jdbc:sqlite:LocalStorage.db";
     private PreparedStatement statement = null;
     private Connection connection = null;
     private ResultSet resultSet = null;
     
-    private void initializeDB()
+    protected void initializeDB()
     {
         try{connection = DriverManager.getConnection(DATABASE_NAME);}
         catch(Exception ex){ex.printStackTrace();}
@@ -22,7 +24,8 @@ public class DBOperations
             initializeDB();
             String command = "CREATE TABLE IF NOT EXISTS RAWDATA"
                     + "(COUNT VARCHAR(50),"
-                    + "TIMESTAMP DATETIME);";
+                    + "TIMESTAMP DATETIME,"
+                    + "DAY VARCHAR(50));";
             statement = connection.prepareStatement(command);
             int result = statement.executeUpdate();
         }
@@ -31,23 +34,23 @@ public class DBOperations
         finally{closeConnection();}
         
     }
-    public void insert(String count, String timeStamp)
+    public void insert(String count, String timeStamp, String day)
     {
-        try
+        try 
         {
             initializeDB();
-            String command = "insert into RAWDATA(COUNT,TIMESTAMP)values(?,?);";
+            String command = "insert into RAWDATA(COUNT,TIMESTAMP,DAY)values(?,?,?);";
             statement = connection.prepareStatement(command);
             statement.setString(1, count);
             statement.setString(2, timeStamp);
+            statement.setString(3, day);
             statement.executeUpdate();
-        }catch(Exception ex){ex.printStackTrace();}
+        } 
+        catch (SQLException sQLException) {sQLException.printStackTrace();}
         finally{closeConnection();}
-    }
-    public void retrieve()
-    {
         
     }
+    public abstract void retrieve(Day day);
     public void update()
     {
         
@@ -71,4 +74,7 @@ public class DBOperations
             ex.printStackTrace();
 }
     }
+    public PreparedStatement getStatement() {return statement;}
+    public Connection getConnection() {return connection;}
+    public ResultSet getResultSet() {return resultSet;}
 }

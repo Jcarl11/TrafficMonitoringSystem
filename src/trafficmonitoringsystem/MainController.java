@@ -1,5 +1,6 @@
 package trafficmonitoringsystem;
 import LocalDatabase.DBOperations;
+import LocalDatabase.RetrieveDaysAverage;
 import Utilities.GlobalObjects;
 import com.jfoenix.controls.JFXButton;
 import de.jensd.fx.glyphs.GlyphsDude;
@@ -39,7 +40,8 @@ public class MainController implements Initializable
     int intervals = 5;  //5seconds
     TimeUnit unit = TimeUnit.SECONDS;
     DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    DBOperations db = new DBOperations();
+    DateFormat currentDay = new SimpleDateFormat("EEEE");
+    DBOperations db = new RetrieveDaysAverage();
     boolean cameraActive = false;
     int carCount = 0;
     Point linePoint1 = new Point(50, 100);
@@ -143,7 +145,8 @@ public class MainController implements Initializable
                 Date date = new Date();
                 String count = textfield_carcount.getText().trim();
                 String currentDateTime = dateFormat.format(date);
-                db.insert(count, currentDateTime);
+                String day = currentDay.format(date);
+                db.insert(count, currentDateTime,day);
             }
         };
         GlobalObjects.getInstance().grabber = Executors.newSingleThreadScheduledExecutor();
