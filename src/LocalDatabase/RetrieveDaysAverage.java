@@ -39,5 +39,6 @@ public class RetrieveDaysAverage extends DBOperations
         catch (SQLException sQLException) {sQLException.printStackTrace();}
         finally{closeConnection();}
     }
+
     public HashMap<Day, String> getResult() {return result;}
 }

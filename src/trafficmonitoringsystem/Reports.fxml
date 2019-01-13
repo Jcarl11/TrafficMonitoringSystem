@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.CategoryAxis?>
@@ -7,14 +8,15 @@
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="530.0" prefWidth="750.0" styleClass="anchor-pane" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="trafficmonitoringsystem.ReportsController">
+<AnchorPane id="AnchorPane" prefHeight="530.0" prefWidth="750.0" styleClass="anchor-pane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="trafficmonitoringsystem.ReportsController">
     <stylesheets>
         <URL value="@Styles.css" />
     </stylesheets>
    <children>
-      <TabPane prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <TabPane layoutX="175.0" layoutY="114.0" prefHeight="530.0" prefWidth="750.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
           <Tab fx:id="tab_averagevolume" text="Average Volume">
             <content>
@@ -35,12 +37,20 @@
                   </AnchorPane>
             </content>
           </Tab>
-          <Tab fx:id="tab_report2" text="Report 2">
+          <Tab fx:id="tab_report2" text="Levels of service">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tableview_report" editable="true" fixedCellSize="100.0" layoutX="110.0" layoutY="64.0" prefHeight="427.0" prefWidth="750.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                     </children></AnchorPane>
             </content>
           </Tab>
         </tabs>
       </TabPane>
+      <JFXButton fx:id="button_refresh" buttonType="RAISED" layoutX="208.0" layoutY="29.0" onAction="#button_refreshOnClick" prefHeight="38.0" prefWidth="110.0" ripplerFill="#867e7e" style="-fx-background-color: #c5b7b7;" text="Refresh" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0" />
    </children>
 </AnchorPane>

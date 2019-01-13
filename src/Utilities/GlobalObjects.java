@@ -33,7 +33,7 @@ public class GlobalObjects
             instance = new GlobalObjects();
         return instance;
     }
-    public ScheduledExecutorService timer,grabber;
+    public ScheduledExecutorService timer,grabber,computer;
     public VideoCapture videoCapture;
     public Image mat2Image(Mat frame)
     {
