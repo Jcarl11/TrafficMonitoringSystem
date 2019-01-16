@@ -32,5 +32,29 @@ public class TaskExecutor
         };
         new Thread(myTask).start();
     }
+    public void loginUser(String username, String password)
+    {
+        myTask = new Task<Response>() 
+        {
+            @Override
+            protected Response call() throws Exception 
+            {
+                return databaseOperation.retrieveUser(username, password);
+            }
+        };
+        new Thread(myTask).start();
+    }
+    public void logout(String sessionToken)
+    {
+        myTask = new Task<Response>() 
+        {
+            @Override
+            protected Response call() throws Exception 
+            {
+                return databaseOperation.logoutUser(sessionToken);
+            }
+        };
+        new Thread(myTask).start();
+    }
     public Task<?> getMyTask() {return myTask;}
 }

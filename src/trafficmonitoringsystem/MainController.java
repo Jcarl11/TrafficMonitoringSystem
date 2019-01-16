@@ -1,7 +1,9 @@
 package trafficmonitoringsystem;
+import Database.TaskExecutor;
 import LocalDatabase.DBOperations;
 import LocalDatabase.RetrieveDaysAverage;
 import Utilities.GlobalObjects;
+import Utilities.UsersPreferences;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
@@ -27,12 +29,19 @@ import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.videoio.VideoCapture;
 import java.util.concurrent.TimeUnit;
+import javafx.concurrent.WorkerStateEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javax.swing.JOptionPane;
+import org.asynchttpclient.Response;
 import org.opencv.core.MatOfRect;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
@@ -61,6 +70,10 @@ public class MainController implements Initializable
     @FXML private JFXTextField textfield_areaname;
     @FXML private JFXRadioButton radiobtn_uninterrupted,radiobtn_interrupted;
     @FXML private ToggleGroup RadioGroup1;
+    @FXML
+    private Hyperlink hyperlink_signout;
+    @FXML
+    private ProgressIndicator progress_main;
 
     @FXML void button_choosefileOnClick(ActionEvent event) 
     {
@@ -207,5 +220,28 @@ public class MainController implements Initializable
         else
             GlobalObjects.getInstance().showMessage("Don't leave null fields", anchorpane_center_main);
         return status;
+    }
+
+    @FXML
+    private void hyperlink_signoutOnClick(ActionEvent event) 
+    {
+        TaskExecutor.getInstance().logout(UsersPreferences.getInstance().getPreference().get("sessionToken", null));
+        GlobalObjects.getInstance().bindBtnNProgress(hyperlink_signout, progress_main, TaskExecutor.getInstance().getMyTask().runningProperty());
+        TaskExecutor.getInstance().getMyTask().setOnSucceeded(new EventHandler<WorkerStateEvent>() 
+        {
+            @Override
+            public void handle(WorkerStateEvent event) 
+            {
+                Response response = (Response)TaskExecutor.getInstance().getMyTask().getValue();
+                if(response.getStatusCode() == 200)
+                {
+                    UsersPreferences.getInstance().clearPreference();
+                    GlobalObjects.getInstance().openNewWindow("LoginRegister.fxml", "Signin/Register", StageStyle.DECORATED);
+                    ((Stage)hyperlink_signout.getScene().getWindow()).close();
+                }
+                else
+                    GlobalObjects.getInstance().showMessage("Failed", anchorpane_center_main);
+            }
+        });
     }
 }

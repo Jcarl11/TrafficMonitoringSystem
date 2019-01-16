@@ -18,7 +18,33 @@ public class DatabaseOperation
 {
     AsyncHttpClient asyncHttpClient = Dsl.asyncHttpClient();
     List<Future<Response>> responses;
-    
+    public Response retrieveUser(String username, String password)
+    {
+        System.out.println("Initalized");
+        ListenableFuture<Response> lf = asyncHttpClient.prepareGet(GlobalObjects.URL_BASE + "login")
+                        .addHeader("X-Parse-Application-Id", GlobalObjects.APP_ID)
+                        .setHeader("X-Parse-REST-API-Key", GlobalObjects.REST_API_KEY)
+                        .setHeader("X-Parse-Revocable-Session", GlobalObjects.IRREVOCABLE_SESSION)
+                        .addQueryParam("username", username)
+                        .addQueryParam("password", password)
+                        .execute(new AsyncCompletionHandler<Response>() 
+                        {
+                            @Override
+                            public Response onCompleted(Response rspns) throws Exception 
+                            {
+                                return rspns;
+                            }
+                        });
+        Response response = null;
+        try {
+            response = lf.get();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(DatabaseOperation.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ExecutionException ex) {
+            Logger.getLogger(DatabaseOperation.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return response;
+    }
     public String registerUser(String username, String password, String email)
     {
         String sessionToken = null;

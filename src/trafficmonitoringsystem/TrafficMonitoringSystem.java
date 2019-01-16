@@ -1,9 +1,12 @@
 
 package trafficmonitoringsystem;
 
+import Database.TaskExecutor;
 import Utilities.GlobalObjects;
 import Utilities.UsersPreferences;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -35,6 +38,26 @@ public class TrafficMonitoringSystem extends Application {
                 GlobalObjects.getInstance().shutdownScheduledExecutor(GlobalObjects.getInstance().grabber);
                 GlobalObjects.getInstance().shutdownScheduledExecutor(GlobalObjects.getInstance().timer);
                 GlobalObjects.getInstance().stopCamera(GlobalObjects.getInstance().videoCapture);
+                if(UsersPreferences.getInstance().getPreference().getBoolean("rememberpassword", false) == false)
+                {
+                    event.consume();
+                    TaskExecutor.getInstance().logout(UsersPreferences.getInstance().getPreference().get("sessionToken", null));
+                    TaskExecutor.getInstance().getMyTask().setOnSucceeded(new EventHandler<WorkerStateEvent>() 
+                    {
+                        @Override
+                        public void handle(WorkerStateEvent event) 
+                        {
+                            UsersPreferences.getInstance().clearPreference();
+                            Platform.exit();
+                            System.exit(0);
+                        }
+                    });
+                }
+                else
+                {
+                    Platform.exit();
+                    System.exit(0);
+                }
             }
         });
         Scene scene = new Scene(root);

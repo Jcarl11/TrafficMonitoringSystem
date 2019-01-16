@@ -16,6 +16,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
@@ -159,11 +160,31 @@ public class GlobalObjects
         json.put("email", email);
         return json;
     }
-    public void bindBtnNProgress(JFXButton btn, ProgressIndicator progressIndicator,ReadOnlyBooleanProperty property)
+    public void bindBtnNProgress(Object btn, ProgressIndicator progressIndicator,ReadOnlyBooleanProperty property)
     {
-        btn.disableProperty().unbind();
-        progressIndicator.visibleProperty().unbind();
-        btn.disableProperty().bind(property);
-        progressIndicator.visibleProperty().bind(property);
+        if(btn instanceof JFXButton)
+        {
+            JFXButton button = (JFXButton)btn;
+            button.disableProperty().unbind();
+            progressIndicator.visibleProperty().unbind();
+            button.disableProperty().bind(property);
+            progressIndicator.visibleProperty().bind(property);
+        }
+        else if(btn instanceof Button)
+        {
+            Button button = (Button)btn;
+            button.disableProperty().unbind();
+            progressIndicator.visibleProperty().unbind();
+            button.disableProperty().bind(property);
+            progressIndicator.visibleProperty().bind(property);
+        }
+        else if(btn instanceof Hyperlink)
+        {
+            Hyperlink button = (Hyperlink)btn;
+            button.disableProperty().unbind();
+            progressIndicator.visibleProperty().unbind();
+            button.disableProperty().bind(property);
+            progressIndicator.visibleProperty().bind(property);
+        }
     }
 }
