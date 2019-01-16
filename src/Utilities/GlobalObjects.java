@@ -1,5 +1,6 @@
 package Utilities;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSnackbar;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
@@ -7,11 +8,15 @@ import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import javafx.application.Platform;
+import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
@@ -20,6 +25,7 @@ import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import org.json.JSONObject;
 import org.opencv.core.Mat;
 import org.opencv.videoio.VideoCapture;
 
@@ -35,6 +41,12 @@ public class GlobalObjects
     }
     public ScheduledExecutorService timer,grabber,computer;
     public VideoCapture videoCapture;
+    public static String APP_ID = "nGEoEK8re6EaVhzGCv7CMx4Jan1hELA1iu1wRxSd";
+    public static String REST_API_KEY = "c2tBFbHdVBaJkbqwXgQle1fziX3wXKl02cdG1wSa";
+    public static String IRREVOCABLE_SESSION = "1";
+    public static String URL_FILE = "https://project.back4app.io/files/";
+    public static String URL = "https://project.back4app.io/classes/";
+    public static String URL_BASE = "https://project.back4app.io/";
     public Image mat2Image(Mat frame)
     {
         try
@@ -128,11 +140,30 @@ public class GlobalObjects
                 @Override
                 public void handle(WindowEvent event) 
                 {
-                   
+                   if(fileName == "LoginRegister.fxml")
+                    {
+                       Platform.exit();
+                        System.exit(0); 
+                    }
                 }
             });
             stage.show();
         } 
         catch (IOException iOException) {iOException.printStackTrace();}
+    }
+    public JSONObject buildSignUpUser(String username, String password, String email)
+    {
+        JSONObject json = new JSONObject();
+        json.put("username", username);
+        json.put("password", password);
+        json.put("email", email);
+        return json;
+    }
+    public void bindBtnNProgress(JFXButton btn, ProgressIndicator progressIndicator,ReadOnlyBooleanProperty property)
+    {
+        btn.disableProperty().unbind();
+        progressIndicator.visibleProperty().unbind();
+        btn.disableProperty().bind(property);
+        progressIndicator.visibleProperty().bind(property);
     }
 }
