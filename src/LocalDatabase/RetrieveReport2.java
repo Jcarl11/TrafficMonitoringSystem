@@ -3,6 +3,7 @@ package LocalDatabase;
 
 import Entities.RecordEntity;
 import Utilities.Day;
+import Utilities.GlobalObjects;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -38,6 +39,7 @@ public class RetrieveReport2 extends DBOperations
                     recordEntity.setTime(String.valueOf(hour));
                     recordEntity.setFacility(resultSet.getString("FACILITY"));
                     recordEntity.setFacilityType(resultSet.getString("FACILTYTYPE"));
+                    recordEntity.setLevelOfService(GlobalObjects.getInstance().categorizeLOS(average));
                     recordEntityList.add(recordEntity);
                 }
                     

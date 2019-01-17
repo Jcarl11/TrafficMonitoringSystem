@@ -66,9 +66,29 @@ public class ReportsController implements Initializable
         InitializeReport2 report2 = new InitializeReport2();
         report2.setTableView(tableview_report);
         CompletableFuture<Void> completableFuture2 = CompletableFuture
-                .runAsync(()->retrieveReport.retrieveValue(16))
+                .runAsync(()->retrieveReport.retrieveValue(1))
+                .thenRun(()->retrieveReport.retrieveValue(2))
+                .thenRun(()->retrieveReport.retrieveValue(3))
+                .thenRun(()->retrieveReport.retrieveValue(4))
+                .thenRun(()->retrieveReport.retrieveValue(5))
+                .thenRun(()->retrieveReport.retrieveValue(6))
+                .thenRun(()->retrieveReport.retrieveValue(7))
+                .thenRun(()->retrieveReport.retrieveValue(8))
+                .thenRun(()->retrieveReport.retrieveValue(9))
+                .thenRun(()->retrieveReport.retrieveValue(10))
+                .thenRun(()->retrieveReport.retrieveValue(11))
                 .thenRun(()->retrieveReport.retrieveValue(12))
-                .thenRun(()->retrieveReport.retrieveValue(17));
+                .thenRun(()->retrieveReport.retrieveValue(13))
+                .thenRun(()->retrieveReport.retrieveValue(14))
+                .thenRun(()->retrieveReport.retrieveValue(15))
+                .thenRun(()->retrieveReport.retrieveValue(16))
+                .thenRun(()->retrieveReport.retrieveValue(17))
+                .thenRun(()->retrieveReport.retrieveValue(18))
+                .thenRun(()->retrieveReport.retrieveValue(19))
+                .thenRun(()->retrieveReport.retrieveValue(20))
+                .thenRun(()->retrieveReport.retrieveValue(21))
+                .thenRun(()->retrieveReport.retrieveValue(22))
+                .thenRun(()->retrieveReport.retrieveValue(23));
         try {
             completableFuture2.get();
         } catch (InterruptedException ex) {

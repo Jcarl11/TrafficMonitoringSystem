@@ -39,7 +39,7 @@ public abstract class DBOperations
         try 
         {
             initializeDB();
-            String command = "insert into RAWDATA(COUNT,TIMESTAMP,DAY,FACILITY,FACILITYTYPE)values(?,?,?,?,?);";
+            String command = "insert into RAWDATA(COUNT,TIMESTAMP,DAY,FACILITY,FACILTYTYPE)values(?,?,?,?,?);";
             statement = connection.prepareStatement(command);
             statement.setString(1, count);
             statement.setString(2, timeStamp);

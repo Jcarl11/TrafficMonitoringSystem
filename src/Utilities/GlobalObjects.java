@@ -187,4 +187,24 @@ public class GlobalObjects
             progressIndicator.visibleProperty().bind(property);
         }
     }
+    public String categorizeLOS(String value)
+    {
+        String los = null;
+        double valueConverted = Double.valueOf(value);
+        if(valueConverted >= 0 && valueConverted <= 10)
+            los = "A";
+        else if(valueConverted >= 11 && valueConverted <= 20)
+            los = "B";
+        else if(valueConverted >= 21 && valueConverted <= 30)
+            los = "C";
+        else if(valueConverted >= 31 && valueConverted <= 40)
+            los = "D";
+        else if(valueConverted >= 41 && valueConverted <= 50)
+            los = "E";
+        else if(valueConverted >=51)
+                los = "F";
+        else
+            los="Unmeasurable";
+        return los;
+    }
 }
