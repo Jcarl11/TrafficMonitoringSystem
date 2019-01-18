@@ -19,8 +19,8 @@ public class InitializeReport2
     private void initializeTable()
     {
         TableColumn time = new TableColumn("Time");
-        TableColumn facility = new TableColumn("Faciity");
-        TableColumn facilityType = new TableColumn("Faciity Type");
+        TableColumn facility = new TableColumn("Facility");
+        TableColumn facilityType = new TableColumn("Facility Type");
         TableColumn los = new TableColumn("Level Of Service");
         
         tableView.getColumns().add(time);

@@ -17,7 +17,13 @@ public class RecordEntity
     public String getLevelOfService() {return levelOfService;}
     public void setLevelOfService(String levelOfService) {this.levelOfService = levelOfService;}
     
-    
+    public boolean isNull()
+    {
+        boolean hasNull = true;
+        if(!getTime().isEmpty() && !getFacility().isEmpty() && !getFacilityType().isEmpty() && !getLevelOfService().isEmpty())
+            hasNull = false;
+        return hasNull;
+    }
     public RecordEntity(String time, String facility, String facilityType, String levelOfService) 
     {
         this.time = time;

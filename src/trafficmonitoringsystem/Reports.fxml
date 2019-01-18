@@ -6,17 +6,18 @@
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="530.0" prefWidth="750.0" styleClass="anchor-pane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="trafficmonitoringsystem.ReportsController">
+<AnchorPane id="AnchorPane" fx:id="anchorpane_main" prefHeight="530.0" prefWidth="750.0" styleClass="anchor-pane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="trafficmonitoringsystem.ReportsController">
     <stylesheets>
         <URL value="@Styles.css" />
     </stylesheets>
    <children>
-      <TabPane layoutX="175.0" layoutY="114.0" prefHeight="530.0" prefWidth="750.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <TabPane fx:id="tabpane_main" layoutX="175.0" layoutY="114.0" prefHeight="530.0" prefWidth="750.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
           <Tab fx:id="tab_averagevolume" text="Average Volume">
             <content>
@@ -52,5 +53,7 @@
         </tabs>
       </TabPane>
       <JFXButton fx:id="button_refresh" buttonType="RAISED" layoutX="208.0" layoutY="29.0" onAction="#button_refreshOnClick" prefHeight="38.0" prefWidth="110.0" ripplerFill="#867e7e" style="-fx-background-color: #c5b7b7;" text="Refresh" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0" />
+      <JFXButton fx:id="button_publish" buttonType="RAISED" layoutX="485.0" layoutY="472.0" onAction="#button_publishOnClick" prefHeight="38.0" prefWidth="110.0" ripplerFill="#867e7e" style="-fx-background-color: #c5b7b7;" text="Publish" />
+      <ProgressIndicator fx:id="progress_reports" layoutX="441.0" layoutY="472.0" prefHeight="38.0" prefWidth="23.0" visible="false" />
    </children>
 </AnchorPane>

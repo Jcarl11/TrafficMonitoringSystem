@@ -1,7 +1,13 @@
 
 package Database;
 
+import Entities.RecordEntity;
 import Utilities.GlobalObjects;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -12,6 +18,7 @@ import org.asynchttpclient.AsyncHttpClient;
 import org.asynchttpclient.Dsl;
 import org.asynchttpclient.ListenableFuture;
 import org.asynchttpclient.Response;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class DatabaseOperation 
@@ -102,4 +109,5 @@ public class DatabaseOperation
         }
         return response;
     }
+    
 }

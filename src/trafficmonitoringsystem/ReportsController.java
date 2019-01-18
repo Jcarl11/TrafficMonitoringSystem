@@ -1,5 +1,6 @@
 package trafficmonitoringsystem;
 
+import Database.TaskExecutor;
 import Entities.RecordEntity;
 import LocalDatabase.DBOperations;
 import LocalDatabase.RetrieveDaysAverage;
@@ -9,21 +10,28 @@ import Utilities.GlobalObjects;
 import Utilities.InitializeReport2;
 import com.jfoenix.controls.JFXButton;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.AnchorPane;
+import org.asynchttpclient.Response;
 
 public class ReportsController implements Initializable 
 {
@@ -34,7 +42,12 @@ public class ReportsController implements Initializable
     @FXML private NumberAxis axis_y;
     @FXML private CategoryAxis axis_x;
     @FXML private TableView<RecordEntity> tableview_report;
-    @FXML private JFXButton button_refresh;
+    @FXML private JFXButton button_refresh,button_publish;
+    @FXML private ProgressIndicator progress_reports;
+    @FXML
+    private TabPane tabpane_main;
+    @FXML
+    private AnchorPane anchorpane_main;
 
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -101,4 +114,30 @@ public class ReportsController implements Initializable
 
     @FXML
     private void button_refreshOnClick(ActionEvent event) {}
+
+    @FXML
+    private void button_publishOnClick(ActionEvent event) 
+    {
+        TaskExecutor.getInstance().publishReports();
+        GlobalObjects.getInstance().bindBtnNProgress(button_publish, progress_reports, TaskExecutor.getInstance().getMyTask().runningProperty());
+        TaskExecutor.getInstance().getMyTask().setOnSucceeded(new EventHandler<WorkerStateEvent>() 
+        {
+            @Override
+            public void handle(WorkerStateEvent event) 
+            {
+                GlobalObjects.getInstance().showMessage("Publish done", anchorpane_main);
+                Response response = (Response)TaskExecutor.getInstance().getMyTask().getValue();
+                System.out.println(response.getStatusCode());
+                System.out.println(response.getResponseBody());
+            }
+        });
+        TaskExecutor.getInstance().getMyTask().setOnFailed(new EventHandler<WorkerStateEvent>() 
+        {
+            @Override
+            public void handle(WorkerStateEvent event) 
+            {
+                GlobalObjects.getInstance().showMessage("Error", anchorpane_main);
+            }
+        });
+    }
 }

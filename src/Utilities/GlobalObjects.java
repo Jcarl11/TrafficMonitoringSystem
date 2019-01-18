@@ -6,8 +6,14 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.embed.swing.SwingFXUtils;
@@ -206,5 +212,36 @@ public class GlobalObjects
         else
             los="Unmeasurable";
         return los;
+    }
+    public JSONObject buildParameter(String date, String facility, String facilityType, String LOS)
+    {
+        JSONObject json = new JSONObject();
+        JSONObject json2 = new JSONObject();
+        json2.put("method", "POST");
+        json2.put("path", "/classes/Data");
+        json2.put("body", json);
+        json.put("TIMESTAMP", dateFormat(date));
+        json.put("Facility", facility);
+        json.put("FacilityType", facilityType);
+        json.put("LOS", LOS);
+        return json2;
+    }
+    public JSONObject dateFormat(String dateString)
+    {
+        //String converted = convertDateToIso(dateString);
+        JSONObject json = new JSONObject();
+        json.put("__type", "Date");
+        json.put("iso", dateString);
+        return json;
+    }
+    public String convertDateToIso(String dateString)
+    {
+        DateFormat simpleDateFormat1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+        DateFormat simpleDateFormat2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:dd'Z'");
+        Date date = new Date();
+        try {
+            date = simpleDateFormat1.parse(dateString);
+        } catch (ParseException ex) {Logger.getLogger(GlobalObjects.class.getName()).log(Level.SEVERE, null, ex);}
+        return simpleDateFormat2.format(date);
     }
 }

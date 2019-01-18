@@ -1,4 +1,5 @@
 package trafficmonitoringsystem;
+import Database.DatabaseOperation;
 import Database.TaskExecutor;
 import LocalDatabase.DBOperations;
 import LocalDatabase.RetrieveDaysAverage;
@@ -50,6 +51,7 @@ import org.opencv.objdetect.CascadeClassifier;
 
 public class MainController implements Initializable
 {
+    DatabaseOperation dboperation = new DatabaseOperation();
     ArrayList<Integer> data = new ArrayList<>();
     int intervals = 5;  //5seconds
     TimeUnit unit = TimeUnit.SECONDS;
@@ -165,11 +167,13 @@ public class MainController implements Initializable
     {
         jfxbutton_play.setGraphic(GlyphsDude.createIcon(MaterialDesignIcon.PLAY_PAUSE, "24px"));
         db.createDB();
+        
     }    
 
     @FXML
     private void button_showreportsOnClick(ActionEvent event) 
     {
+        
         GlobalObjects.getInstance().openNewWindow("Reports.fxml", "Reports", StageStyle.UTILITY);
     }
     private void startBackgroundCounter()
