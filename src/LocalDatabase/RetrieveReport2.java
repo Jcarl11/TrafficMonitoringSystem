@@ -76,9 +76,7 @@ public class RetrieveReport2 extends DBOperations
                 if(average != null)
                 {
                     //recordEntity.setTime(String.valueOf(hour));
-                    System.out.println("Stuck here");
                     recordEntity.setTime(GlobalObjects.getInstance().convertDateToIso(timestamp));
-                    System.out.println("Here");
                     recordEntity.setFacility(resultSet.getString("FACILITY"));
                     recordEntity.setFacilityType(resultSet.getString("FACILTYTYPE"));
                     recordEntity.setLevelOfService(GlobalObjects.getInstance().categorizeLOS(average));

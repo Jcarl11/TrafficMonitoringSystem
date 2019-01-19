@@ -2,7 +2,9 @@
 package Database;
 
 import Entities.RecordEntity;
+import LocalDatabase.RetrieveDaysAverage;
 import LocalDatabase.RetrieveReport2;
+import Utilities.Day;
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -68,6 +70,7 @@ public class TaskExecutor
             protected Response call() throws Exception 
             {
                 RetrieveReport2 retrieveReport = new RetrieveReport2();
+                RetrieveDaysAverage retrieveDaysAverage = new RetrieveDaysAverage();
                 CompletableFuture<Response> completableFuture2 = CompletableFuture
                             .runAsync(()->retrieveReport.retrieveValue_COMPLETETIME(1))
                             .thenRun(()->retrieveReport.retrieveValue_COMPLETETIME(2))
@@ -92,6 +95,14 @@ public class TaskExecutor
                             .thenRun(()->retrieveReport.retrieveValue_COMPLETETIME(21))
                             .thenRun(()->retrieveReport.retrieveValue_COMPLETETIME(22))
                             .thenRun(()->retrieveReport.retrieveValue_COMPLETETIME(23))
+                            .thenRun(()->retrieveDaysAverage.retrieveReport(Day.Monday))
+                            .thenRun(()->retrieveDaysAverage.retrieveReport(Day.Tuesday))
+                            .thenRun(()->retrieveDaysAverage.retrieveReport(Day.Wednesday))
+                            .thenRun(()->retrieveDaysAverage.retrieveReport(Day.Thursday))
+                            .thenRun(()->retrieveDaysAverage.retrieveReport(Day.Friday))
+                            .thenRun(()->retrieveDaysAverage.retrieveReport(Day.Saturday))
+                            .thenRun(()->retrieveDaysAverage.retrieveReport(Day.Sunday))
+                            .thenRun(()->retrieveDaysAverage.insert(retrieveDaysAverage.getReportList()))
                             .thenApply(data->retrieveReport.insert(retrieveReport.getResult()));
                 Response response = null;
                 try 
@@ -105,5 +116,19 @@ public class TaskExecutor
         };
         new Thread(myTask).start();
     }
+    /*public void publishReport2()
+    {
+        myTask = new Task<Response>() 
+        {
+            @Override
+            protected Response call() throws Exception 
+            {
+                CompletableFuture<Void> cf = CompletableFuture
+                        .runAsync(()->)
+                return;
+            }
+        };
+        new Thread(myTask).start();
+    }*/
     public Task<?> getMyTask() {return myTask;}
 }

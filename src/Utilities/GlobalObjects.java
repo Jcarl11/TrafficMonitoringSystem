@@ -1,5 +1,6 @@
 package Utilities;
 
+import Entities.Report1Entity;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSnackbar;
 import java.awt.image.BufferedImage;
@@ -224,6 +225,18 @@ public class GlobalObjects
         json.put("Facility", facility);
         json.put("FacilityType", facilityType);
         json.put("LOS", LOS);
+        return json2;
+    }
+    public JSONObject buildParameter2(Report1Entity data)
+    {
+        JSONObject json = new JSONObject();
+        JSONObject json2 = new JSONObject();
+        json2.put("method", "POST");
+        json2.put("path", "/classes/Data2");
+        json2.put("body", json);
+        json.put("TIMESTAMP", dateFormat(data.getTimestamp()));
+        json.put("AVERAGE", data.getAverage());
+        json.put("DAY", data.getDay());
         return json2;
     }
     public JSONObject dateFormat(String dateString)

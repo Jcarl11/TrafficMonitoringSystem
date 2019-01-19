@@ -127,8 +127,6 @@ public class ReportsController implements Initializable
             {
                 GlobalObjects.getInstance().showMessage("Publish done", anchorpane_main);
                 Response response = (Response)TaskExecutor.getInstance().getMyTask().getValue();
-                System.out.println(response.getStatusCode());
-                System.out.println(response.getResponseBody());
             }
         });
         TaskExecutor.getInstance().getMyTask().setOnFailed(new EventHandler<WorkerStateEvent>() 
